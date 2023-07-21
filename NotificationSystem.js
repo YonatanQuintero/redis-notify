@@ -1,4 +1,4 @@
-const redis = require('redis');
+const Redis = require('redis');
 
 class NotificationSystem {
     constructor(redisClient) {
@@ -72,9 +72,10 @@ class NotificationSystem {
 }
 
 async function example() {
-    const redisClient = redis.createClient();
-    redisClient.connect();
+    const redisClient = Redis.createClient();
     try {
+        redisClient.connect();
+
         // Example usage of the NotificationSystem class
         const notificationSystem = new NotificationSystem(redisClient);
 
@@ -111,7 +112,7 @@ async function example() {
     }
 }
 
-(async function main(args) {
+(async (args) => {
     try {
         console.log('Running...');
 
@@ -122,3 +123,5 @@ async function example() {
         console.error('An error occurred:', error);
     }
 })(process.argv.slice(2));
+
+module.exports = NotificationSystem
