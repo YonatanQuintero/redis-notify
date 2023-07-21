@@ -41,9 +41,6 @@ async function example() {
         notificationSubscriber.startListening();
     } catch (error) {
         console.error("Error handling notification subscriber:", error);
-    } finally {
-        // notificationSubscriber.stopListening();
-        // await redisSubscriber.quit();
     }
 }
 

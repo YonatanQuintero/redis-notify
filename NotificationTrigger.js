@@ -10,12 +10,15 @@ class NotificationTrigger {
     async triggerNotification(eventData) {
         try {
             // Extract necessary information from the eventData
-            const { eventType, userId } = eventData;
+            const { eventType, userId, kycDocumentId
+                , updateDetails } = eventData;
 
             // Create the notification object based on the event
             const notification = {
                 eventType,
                 userId,
+                kycDocumentId,
+                updateDetails,
                 timestamp: Date.now()
             };
 
@@ -38,7 +41,7 @@ class NotificationTrigger {
 }
 
 // Example usage of the NotificationTrigger class with dependency injection
-async function example() {
+async function example(message) {
 
     const redisClient = Redis.createClient();
     try {
@@ -51,7 +54,7 @@ async function example() {
             eventType: "KYC_UPDATE",
             userId: "user123",
             kycDocumentId: "kyc123",
-            updateDetails: "Updated personal information."
+            updateDetails: message
         };
 
         // Trigger the notification for the KYC update event using the NotificationTrigger class
@@ -67,8 +70,9 @@ async function example() {
 
 (async (args) => {
     try {
+        const message = args[0] || 'Updated personal information.';
         console.log('Running...');
-        await example();
+        await example(message);
         console.log('Done!');
     } catch (error) {
         console.error('An error occurred:', error);
